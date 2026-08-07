@@ -39,7 +39,7 @@ function allowedDigits(base: number): string {
 /** Human readable list of the characters valid in a given base. */
 export function digitHint(base: number): string {
   if (base <= 10) return `0-${base - 1}`;
-  return `0-9 and A-${DIGITS[base - 1].toUpperCase()}`;
+  return `0-9 and A-${DIGITS.charAt(base - 1).toUpperCase()}`;
 }
 
 /** Strip formatting users routinely paste: spaces, underscores, 0x / 0b prefixes. */
@@ -89,7 +89,7 @@ export function formatInBase(value: bigint, base: number): string {
   const bigBase = BigInt(base);
   let out = "";
   while (n > 0n) {
-    out = DIGITS[Number(n % bigBase)] + out;
+    out = DIGITS.charAt(Number(n % bigBase)) + out;
     n /= bigBase;
   }
   return negative ? `-${out}` : out;
@@ -111,7 +111,7 @@ function expansionSteps(raw: string, fromBase: number): ConversionStep[] {
   const valid = allowedDigits(fromBase);
   const terms: string[] = [];
   for (let i = 0; i < s.length; i++) {
-    const digit = valid.indexOf(s[i]);
+    const digit = valid.indexOf(s.charAt(i));
     const power = s.length - 1 - i;
     terms.push(`${digit} x ${fromBase}^${power}`);
   }
@@ -136,7 +136,7 @@ function divisionSteps(value: bigint, toBase: number): ConversionStep[] {
   while (n > 0n && count < MAX_STEPS) {
     const q = n / bigBase;
     const r = n % bigBase;
-    rows.push(`${n} / ${toBase} = ${q} remainder ${DIGITS[Number(r)].toUpperCase()}`);
+    rows.push(`${n} / ${toBase} = ${q} remainder ${DIGITS.charAt(Number(r)).toUpperCase()}`);
     n = q;
     count++;
   }
