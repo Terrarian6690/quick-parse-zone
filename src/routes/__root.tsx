@@ -117,8 +117,37 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <div className="flex min-h-screen flex-col bg-background">
+        <header className="border-b border-border">
+          <nav
+            aria-label="Main"
+            className="mx-auto flex w-full max-w-3xl items-center gap-4 px-4 py-3"
+          >
+            <Link to="/" className="font-mono text-sm font-bold text-foreground">
+              base<span className="text-muted-foreground">convert</span>
+            </Link>
+            <Link
+              to="/"
+              className="ml-auto text-sm text-muted-foreground hover:text-foreground"
+              activeProps={{ className: "ml-auto text-sm text-foreground" }}
+            >
+              All converters
+            </Link>
+          </nav>
+        </header>
+
+        <main className="flex-1">
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+        </main>
+
+        <footer className="border-t border-border">
+          <div className="mx-auto w-full max-w-3xl px-4 py-6 text-xs text-muted-foreground">
+            Free number base converters. All conversions run locally in your browser.
+          </div>
+        </footer>
+      </div>
     </QueryClientProvider>
   );
 }
+
