@@ -1,24 +1,54 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CONVERTER_LIST } from "@/lib/converters";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "Free Number Converters — Binary, Decimal & Hex";
+const description =
+  "Fast, free number base converters. Convert between binary, decimal and hexadecimal instantly in your browser — no signup, no data sent anywhere.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary" },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:py-12">
+      <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        Free online number converters
+      </h1>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        Instant, exact conversion between binary, decimal and hexadecimal. Everything runs in your
+        browser — your input is never sent to a server, and even very large numbers convert without
+        rounding.
+      </p>
+
+      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+        {CONVERTER_LIST.map((c) => (
+          <li key={c.slug}>
+            <Link
+              to="/$slug"
+              params={{ slug: c.slug }}
+              className="block rounded-xl border border-border bg-card p-4 transition-colors hover:bg-accent"
+            >
+              <span className="block font-semibold text-foreground">{c.h1}</span>
+              <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
+                {c.fromLabel} to {c.toLabel}, with step-by-step working.
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
