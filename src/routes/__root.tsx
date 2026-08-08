@@ -121,18 +121,25 @@ function RootComponent() {
         <header className="border-b border-border">
           <nav
             aria-label="Main"
-            className="mx-auto flex w-full max-w-3xl items-center gap-4 px-4 py-3"
+            className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
           >
             <Link to="/" className="font-mono text-sm font-bold text-foreground">
-              base<span className="text-muted-foreground">convert</span>
+              convert<span className="text-muted-foreground">ly</span>
             </Link>
-            <Link
-              to="/"
-              className="ml-auto text-sm text-muted-foreground hover:text-foreground"
-              activeProps={{ className: "ml-auto text-sm text-foreground" }}
-            >
-              All converters
-            </Link>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+              <Link to="/$slug" params={{ slug: "base" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+                Number Bases
+              </Link>
+              <Link to="/$slug" params={{ slug: "text" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+                Text &amp; ASCII
+              </Link>
+              <Link to="/$slug" params={{ slug: "ciphers" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+                Ciphers
+              </Link>
+              <Link to="/$slug" params={{ slug: "custom-text-encoder" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+                Other Tools
+              </Link>
+            </div>
           </nav>
         </header>
 
