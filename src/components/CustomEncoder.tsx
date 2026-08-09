@@ -52,7 +52,7 @@ export function CustomEncoder() {
   };
 
   return (
-    <section aria-label="Custom text encoder" className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6">
+    <section aria-label="Custom text encoder" className="card-term rounded-2xl p-4 backdrop-blur-sm sm:p-6">
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="min-w-0">
           <label
@@ -68,7 +68,7 @@ export function CustomEncoder() {
             rows={6}
             spellCheck={false}
             placeholder="SIEMA"
-            className="w-full resize-y rounded-lg border border-input bg-background px-3 py-3 font-mono text-lg text-foreground outline-none placeholder:text-muted-foreground/60 focus-visible:ring-2 focus-visible:ring-ring"
+            className="w-full resize-y rounded-lg glow-hover border border-border bg-card px-3 py-3 font-mono text-lg text-foreground outline-none placeholder:text-muted-foreground/60 focus-visible:ring-2 focus-visible:ring-ring"
           />
         </div>
         <div className="min-w-0">
@@ -78,7 +78,7 @@ export function CustomEncoder() {
           <output
             htmlFor="custom-input"
             aria-live="polite"
-            className="block min-h-[10rem] w-full break-all rounded-lg border border-input bg-muted/40 px-3 py-3 font-mono text-lg text-foreground"
+            className="block min-h-[10rem] w-full break-all rounded-lg panel-out px-3 py-3 font-mono text-lg text-foreground"
           >
             {output || <span className="text-muted-foreground/60">Result appears here</span>}
           </output>
@@ -110,7 +110,7 @@ export function CustomEncoder() {
                 value={row.from}
                 maxLength={2}
                 onChange={(e) => update(i, { from: e.target.value })}
-                className="min-h-11 w-16 rounded-md border border-input bg-background px-2 text-center font-mono text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-11 w-16 rounded-md glow-hover border border-border bg-card px-2 text-center font-mono text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               />
               <span aria-hidden="true" className="text-muted-foreground">
                 →
@@ -120,13 +120,13 @@ export function CustomEncoder() {
                 value={row.to}
                 maxLength={4}
                 onChange={(e) => update(i, { to: e.target.value })}
-                className="min-h-11 w-24 rounded-md border border-input bg-background px-2 text-center font-mono text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                className="min-h-11 w-24 rounded-md glow-hover border border-border bg-card px-2 text-center font-mono text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               />
               <button
                 type="button"
                 aria-label={`Remove mapping row ${i + 1}`}
                 onClick={() => setMapping((m) => m.filter((_, idx) => idx !== i))}
-                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md border border-input text-foreground transition-colors hover:bg-accent"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md glow-hover border border-border text-foreground transition-colors hover:bg-accent"
               >
                 <Trash2 className="size-4" aria-hidden="true" />
               </button>
@@ -137,7 +137,7 @@ export function CustomEncoder() {
           <button
             type="button"
             onClick={() => setMapping((m) => [...m, { from: "", to: "" }])}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-md glow-hover border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             <Plus className="size-4" aria-hidden="true" />
             Add row
@@ -145,14 +145,14 @@ export function CustomEncoder() {
           <button
             type="button"
             onClick={() => setMapping(DEFAULT_MAPPING)}
-            className="inline-flex min-h-9 items-center rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex min-h-9 items-center rounded-md glow-hover border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Reset to default
           </button>
           <button
             type="button"
             onClick={exportMapping}
-            className="inline-flex min-h-9 items-center rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex min-h-9 items-center rounded-md glow-hover border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Export as JSON
           </button>

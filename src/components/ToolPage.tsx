@@ -26,7 +26,7 @@ function ToolLink({ slug }: { slug: string }) {
     <Link
       to="/$slug"
       params={{ slug }}
-      className="block rounded-lg border border-border px-3 py-2 text-sm text-foreground transition-colors hover:bg-accent"
+      className="block card-term rounded-lg px-3 py-2 text-sm text-foreground"
     >
       {tool.h1}
     </Link>
@@ -96,7 +96,7 @@ export function ToolPage({ tool }: { tool: Tool }) {
           <h2 id="worked-example" className="text-xl font-semibold text-foreground">
             {t.sections.example}
           </h2>
-          <div className="mt-3 rounded-lg border border-border bg-muted/40 p-4">
+          <div className="mt-3 rounded-lg border border-border panel-out p-4">
             <p className="font-mono text-sm text-foreground">
               {tool.example.input}
               <span className="mx-2 text-muted-foreground">→</span>
@@ -135,7 +135,7 @@ export function ToolPage({ tool }: { tool: Tool }) {
             <Link
               to="/$slug"
               params={{ slug: tool.inverse }}
-              className="font-medium text-foreground underline underline-offset-4"
+              className="font-medium text-primary underline underline-offset-4 hover:text-cyan"
             >
               {TOOLS[tool.inverse]!.h1}
             </Link>
@@ -152,7 +152,7 @@ export function ToolPage({ tool }: { tool: Tool }) {
           <Link
             to="/$slug"
             params={{ slug: hubSlug }}
-            className="font-medium text-foreground underline underline-offset-4"
+            className="font-medium text-primary underline underline-offset-4 hover:text-cyan"
           >
             All {HUB_LABEL[tool.category]?.toLowerCase()} tools
           </Link>

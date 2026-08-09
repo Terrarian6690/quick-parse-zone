@@ -23,7 +23,7 @@ export function TextConverter({ mode: initialMode }: { mode: string }) {
   };
 
   return (
-    <section aria-label="Text converter" className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6">
+    <section aria-label="Text converter" className="card-term rounded-2xl p-4 backdrop-blur-sm sm:p-6">
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-start">
         <div className="min-w-0">
           <label
@@ -50,7 +50,7 @@ export function TextConverter({ mode: initialMode }: { mode: string }) {
             <button
               type="button"
               onClick={() => setRaw("")}
-              className="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              className="inline-flex min-h-9 items-center gap-1.5 rounded-md glow-hover border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
             >
               <RotateCcw className="size-4" aria-hidden="true" />
               {t.converter.clear}
@@ -63,7 +63,7 @@ export function TextConverter({ mode: initialMode }: { mode: string }) {
             type="button"
             onClick={swap}
             aria-label="Swap conversion direction"
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-input bg-background text-foreground transition-colors hover:bg-accent"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full glow-hover border border-border bg-card text-foreground transition-colors hover:bg-accent"
           >
             <ArrowLeftRight className="size-5" aria-hidden="true" />
           </button>
@@ -76,7 +76,7 @@ export function TextConverter({ mode: initialMode }: { mode: string }) {
           <output
             htmlFor="text-input"
             aria-live="polite"
-            className="block min-h-[10rem] w-full break-all rounded-lg border border-input bg-muted/40 px-3 py-3 font-mono text-lg text-foreground"
+            className="block min-h-[10rem] w-full break-all rounded-lg panel-out px-3 py-3 font-mono text-lg text-foreground"
           >
             {display || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
           </output>
