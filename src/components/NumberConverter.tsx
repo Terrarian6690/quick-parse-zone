@@ -135,7 +135,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
               onClick={() => setRaw("")}
               className="glow-hover inline-flex min-h-9 items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground"
             >
-              <RotateCcw className="size-4" aria-hidden="true" />
+              <RotateCcw className="size-4 accent-primary" aria-hidden="true" />
               {t.converter.clear}
             </button>
           </div>
@@ -197,7 +197,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
               type="checkbox"
               checked={upper}
               onChange={(e) => setUpper(e.target.checked)}
-              className="size-4"
+              className="size-4 accent-primary"
             />
             Uppercase letters
           </label>
@@ -208,7 +208,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
               type="checkbox"
               checked={prefix}
               onChange={(e) => setPrefix(e.target.checked)}
-              className="size-4"
+              className="size-4 accent-primary"
             />
             Add 0x prefix
           </label>
@@ -218,7 +218,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             type="checkbox"
             checked={batch}
             onChange={(e) => setBatch(e.target.checked)}
-            className="size-4"
+            className="size-4 accent-primary"
           />
           {t.converter.batchMode}
         </label>
@@ -232,7 +232,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             onClick={() => setShowSteps((s) => !s)}
             aria-expanded={showSteps}
             aria-controls="converter-steps"
-            className="text-sm font-medium text-foreground underline underline-offset-4"
+            className="font-mono text-sm font-medium text-primary underline underline-offset-4 hover:text-cyan"
           >
             {showSteps ? t.converter.hideCalculation : t.converter.showCalculation}
           </button>
