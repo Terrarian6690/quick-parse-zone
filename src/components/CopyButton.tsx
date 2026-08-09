@@ -31,7 +31,7 @@ export function CopyButton({
           setCopied(false);
         }
       }}
-      className={`inline-flex min-h-9 items-center gap-1.5 rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-40 ${className}`}
+      className={`inline-flex min-h-9 items-center gap-1.5 rounded-md glow-hover border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent disabled:opacity-40 ${className}`}
     >
       {copied ? <Check className="size-4" aria-hidden="true" /> : <Copy className="size-4" aria-hidden="true" />}
       {copied ? "Copied" : label}
