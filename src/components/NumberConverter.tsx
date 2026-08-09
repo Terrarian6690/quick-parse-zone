@@ -159,7 +159,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
           {batch ? (
             <pre
               aria-live="polite"
-              className="panel-out mt-2 min-h-[11rem] w-full overflow-x-auto whitespace-pre-wrap break-all rounded-xl px-3 py-3 font-mono text-lg text-foreground"
+              className="panel-out mt-2 min-h-[11rem] w-full overflow-x-auto whitespace-pre-wrap break-all rounded-xl px-3 py-3 font-mono text-lg text-primary"
             >
               {batchText || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
             </pre>
@@ -169,7 +169,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
               id="converter-output"
               htmlFor="converter-input"
               aria-live="polite"
-              className="panel-out result-flash mt-2 block min-h-[7.5rem] w-full break-all rounded-xl px-3 py-3 font-mono text-xl tracking-wide text-foreground"
+              className="panel-out result-flash mt-2 block min-h-[7.5rem] w-full break-all rounded-xl px-3 py-3 font-mono text-xl tracking-wide text-primary"
             >
               {display || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
             </output>
