@@ -100,28 +100,31 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
   };
 
   return (
-    <section aria-label="Number base converter" className="rounded-2xl border border-border bg-card p-4 shadow-sm sm:p-6">
+    <section
+      aria-label="Number base converter"
+      className="card-term rounded-2xl p-4 backdrop-blur-sm sm:p-6"
+    >
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:items-start">
         {/* FROM */}
         <div className="min-w-0">
           <SystemSelect id="from-system" label={t.converter.from} value={from} onChange={setFrom} />
-          <textarea
-            id="converter-input"
-            aria-label={`Value in ${from.label}`}
-            value={raw}
-            onChange={(e) => setRaw(e.target.value)}
-            rows={batch ? 8 : 5}
-            spellCheck={false}
-            autoComplete="off"
-            autoCapitalize="off"
-            inputMode={from.base === 10 ? "numeric" : "text"}
-            placeholder={batch ? "1010\n1111\n10001" : "Type a value…"}
-            aria-invalid={invalid}
-            aria-describedby={invalid ? errorId : "from-charset"}
-            className={`mt-2 w-full resize-y rounded-lg border bg-background px-3 py-3 font-mono text-xl text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:ring-2 focus-visible:ring-ring ${
-              invalid ? "border-destructive" : "border-input"
-            }`}
-          />
+          <div className={`panel-term mt-2 rounded-xl ${invalid ? "border-destructive" : ""}`}>
+            <textarea
+              id="converter-input"
+              aria-label={`Value in ${from.label}`}
+              value={raw}
+              onChange={(e) => setRaw(e.target.value)}
+              rows={batch ? 8 : 5}
+              spellCheck={false}
+              autoComplete="off"
+              autoCapitalize="off"
+              inputMode={from.base === 10 ? "numeric" : "text"}
+              placeholder={batch ? "1010\n1111\n10001" : "Type a value…"}
+              aria-invalid={invalid}
+              aria-describedby={invalid ? errorId : "from-charset"}
+              className="w-full resize-y rounded-xl bg-transparent px-3 py-3 font-mono text-xl tracking-wide text-foreground outline-none placeholder:text-muted-foreground/50 focus-visible:outline-none"
+            />
+          </div>
           <p id="from-charset" className="mt-1.5 text-xs text-muted-foreground">
             {t.converter.charset}: {from.charset}
           </p>
@@ -130,7 +133,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             <button
               type="button"
               onClick={() => setRaw("")}
-              className="inline-flex min-h-9 items-center gap-1.5 rounded-md border border-input px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              className="glow-hover inline-flex min-h-9 items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground"
             >
               <RotateCcw className="size-4" aria-hidden="true" />
               {t.converter.clear}
@@ -144,7 +147,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             type="button"
             onClick={swap}
             aria-label={t.converter.swap}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-input bg-background text-foreground transition-colors hover:bg-accent"
+            className="glow-hover inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-card text-primary"
           >
             <ArrowLeftRight className="size-5" aria-hidden="true" />
           </button>
@@ -156,16 +159,17 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
           {batch ? (
             <pre
               aria-live="polite"
-              className="mt-2 min-h-[11rem] w-full overflow-x-auto whitespace-pre-wrap break-all rounded-lg border border-input bg-muted/40 px-3 py-3 font-mono text-lg text-foreground"
+              className="panel-out mt-2 min-h-[11rem] w-full overflow-x-auto whitespace-pre-wrap break-all rounded-xl px-3 py-3 font-mono text-lg text-foreground"
             >
               {batchText || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
             </pre>
           ) : (
             <output
+              key={display}
               id="converter-output"
               htmlFor="converter-input"
               aria-live="polite"
-              className="mt-2 block min-h-[7.5rem] w-full break-all rounded-lg border border-input bg-muted/40 px-3 py-3 font-mono text-xl text-foreground"
+              className="panel-out result-flash mt-2 block min-h-[7.5rem] w-full break-all rounded-xl px-3 py-3 font-mono text-xl tracking-wide text-foreground"
             >
               {display || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
             </output>
@@ -178,6 +182,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
           </div>
         </div>
       </div>
+
 
       {invalid && (
         <p id={errorId} role="alert" className="mt-3 text-sm font-medium text-destructive">
