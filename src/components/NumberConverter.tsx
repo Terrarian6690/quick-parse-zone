@@ -27,7 +27,7 @@ function SystemSelect({
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+        className="mb-1.5 block font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/80"
       >
         {label}
       </label>
@@ -38,7 +38,7 @@ function SystemSelect({
           const sys = getSystem(e.target.value);
           if (sys) onChange(sys);
         }}
-        className="min-h-11 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+        className="glow-hover min-h-11 w-full rounded-lg border border-border bg-card px-3 py-2 font-mono text-sm font-medium text-foreground"
       >
         <optgroup label="Standard bases">
           {STANDARD_SYSTEMS.map((s) => (
@@ -58,6 +58,7 @@ function SystemSelect({
     </div>
   );
 }
+
 
 export function NumberConverter({ initialFrom, initialTo }: Props) {
   const [from, setFrom] = useState<NumberSystem>(
