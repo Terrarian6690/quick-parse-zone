@@ -107,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
@@ -119,31 +119,55 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const navLink =
+    "relative text-muted-foreground transition-colors hover:text-foreground";
+  const navActive = {
+    className:
+      "relative text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:bg-primary",
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="flex min-h-screen flex-col bg-background">
-        <header className="border-b border-border">
+      <div className="relative flex min-h-screen flex-col">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 -z-10 select-none overflow-hidden font-mono text-[11px] leading-8 text-primary/[0.045]"
+        >
+          <div className="absolute -left-6 top-24 rotate-90 whitespace-nowrap">
+            01001000 01100101 01111000 00101101 01000010 01100001 01110011 01100101
+          </div>
+          <div className="absolute right-2 top-8 whitespace-nowrap">A7 F3 19 00 1C 2D 8E FF 04 B1</div>
+          <div className="absolute bottom-16 left-8 whitespace-nowrap">10110101 00101001 11000110 01010101</div>
+        </div>
+
+        <header className="sticky top-0 z-20 border-b border-border bg-background/80 backdrop-blur-md">
           <nav
             aria-label="Main"
-            className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
+            className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-5 gap-y-2 px-4 py-3"
           >
-            <Link to="/" className="font-mono text-sm font-bold text-foreground">
-              convert<span className="text-muted-foreground">ly</span>
+            <Link to="/" className="font-mono text-sm font-bold tracking-tight text-foreground">
+              <span className="text-primary">$</span> convert
+              <span className="text-muted-foreground">ly</span>
             </Link>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-              <Link to="/$slug" params={{ slug: "base" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+              <Link to="/$slug" params={{ slug: "base" }} className={navLink} activeProps={navActive}>
                 Number Bases
               </Link>
-              <Link to="/$slug" params={{ slug: "text" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+              <Link to="/$slug" params={{ slug: "text" }} className={navLink} activeProps={navActive}>
                 Text &amp; ASCII
               </Link>
-              <Link to="/$slug" params={{ slug: "ciphers" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+              <Link to="/$slug" params={{ slug: "ciphers" }} className={navLink} activeProps={navActive}>
                 Ciphers
               </Link>
-              <Link to="/$slug" params={{ slug: "custom-text-encoder" }} className="text-muted-foreground hover:text-foreground" activeProps={{ className: "text-foreground" }}>
+              <Link
+                to="/$slug"
+                params={{ slug: "custom-text-encoder" }}
+                className={navLink}
+                activeProps={navActive}
+              >
                 Other Tools
               </Link>
             </div>
@@ -156,7 +180,7 @@ function RootComponent() {
         </main>
 
         <footer className="border-t border-border">
-          <div className="mx-auto w-full max-w-3xl px-4 py-6 text-xs text-muted-foreground">
+          <div className="mx-auto w-full max-w-3xl px-4 py-6 font-mono text-xs text-muted-foreground">
             Free number base converters. All conversions run locally in your browser.
           </div>
         </footer>
@@ -164,4 +188,5 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
 
