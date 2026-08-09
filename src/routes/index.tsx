@@ -46,7 +46,7 @@ function ToolGrid({ slugs, tools }: { slugs?: string[]; tools: { slug: string; h
           <Link
             to="/$slug"
             params={{ slug: c.slug }}
-            className="block h-full card-term block h-full rounded-xl p-4"
+            className="card-term block h-full rounded-xl p-4"
           >
             <span className="block font-semibold text-foreground">{c.h1}</span>
             <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">

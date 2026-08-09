@@ -96,7 +96,7 @@ export function ToolPage({ tool }: { tool: Tool }) {
           <h2 id="worked-example" className="text-xl font-semibold text-foreground">
             {t.sections.example}
           </h2>
-          <div className="mt-3 rounded-lg border border-border panel-out p-4">
+          <div className="panel-out mt-3 rounded-lg p-4">
             <p className="font-mono text-sm text-foreground">
               {tool.example.input}
               <span className="mx-2 text-muted-foreground">→</span>
