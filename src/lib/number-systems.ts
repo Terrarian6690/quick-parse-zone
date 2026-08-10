@@ -36,7 +36,7 @@ function standard(base: number): NumberSystem {
     base <= 10 ? `Digits 0-${base - 1}` : `Digits 0-9 then letters A-${last} (case-insensitive)`;
   return {
     id: `base-${base}`,
-    label: NAMED[base] ? `${NAMED[base]} (Base ${base})` : `Base ${base}`,
+    label: NAMED[base] ? `${NAMED[base]} — Base ${base}` : `Base ${base}`,
     base,
     alphabet,
     caseSensitive: false,
@@ -66,7 +66,7 @@ const EXTRA: NumberSystem[] = [
   },
   {
     id: "base-58",
-    label: "Base 58 (Bitcoin)",
+    label: "Base 58 — Bitcoin alphabet",
     base: 58,
     alphabet: BASE58_ALPHABET,
     caseSensitive: true,

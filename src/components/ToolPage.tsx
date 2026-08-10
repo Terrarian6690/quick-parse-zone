@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { NumberConverter } from "@/components/NumberConverter";
+import { UniversalConverter } from "@/components/UniversalConverter";
+import { CustomBaseConverter } from "@/components/CustomBaseConverter";
 import { TextConverter } from "@/components/TextConverter";
 import { CustomEncoder } from "@/components/CustomEncoder";
 import { TOOLS, type Tool } from "@/lib/tools";
@@ -64,9 +65,10 @@ export function ToolPage({ tool }: { tool: Tool }) {
       </header>
 
       <div className="mt-5">
-        {tool.kind === "number" && <NumberConverter initialFrom={tool.from} initialTo={tool.to} />}
+        {tool.kind === "number" && <UniversalConverter initialFrom={tool.from} initialTo={tool.to} />}
         {tool.kind === "text" && <TextConverter mode={tool.mode} />}
         {tool.kind === "custom" && <CustomEncoder />}
+        {tool.kind === "custom-base" && <CustomBaseConverter />}
         {tool.kind === "hub" && (
           <ul className="grid gap-3 sm:grid-cols-2">
             {tool.links.map((slug) => (

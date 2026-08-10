@@ -19,6 +19,7 @@ export type BaseTool = {
 export type NumberTool = BaseTool & { kind: "number"; from: string; to: string };
 export type TextTool = BaseTool & { kind: "text"; mode: keyof typeof TEXT_MODES };
 export type CustomTool = BaseTool & { kind: "custom" };
+export type CustomBaseTool = BaseTool & { kind: "custom-base" };
 export type HubTool = Omit<BaseTool, "example" | "howItWorks"> & {
   kind: "hub";
   howItWorks?: string[];
@@ -26,7 +27,7 @@ export type HubTool = Omit<BaseTool, "example" | "howItWorks"> & {
   links: string[];
 };
 
-export type Tool = NumberTool | TextTool | CustomTool | HubTool;
+export type Tool = NumberTool | TextTool | CustomTool | CustomBaseTool | HubTool;
 
 const numberTools: NumberTool[] = [
   {
@@ -549,28 +550,66 @@ const textTools: TextTool[] = [
   },
 ];
 
+const customBaseTool: CustomBaseTool = {
+  kind: "custom-base",
+  slug: "custom-bases",
+  category: "other",
+  title: "Custom Bases Converter — Negative & Non-Standard Bases",
+  h1: "Custom Bases Converter",
+  description:
+    "Convert whole numbers between any integer base from -36 to -2 and 2 to 36, including experimental negative bases. Exact, instant and free.",
+  intro:
+    "Experiment with non-standard numerical bases. Choose any integer base from -36 to -2 or 2 to 36 for both sides. Negative bases are experimental compared with the everyday positive bases: they represent negative numbers without a minus sign. Base 0, base 1 and fractional bases are not valid and are rejected.",
+  howItWorks: [
+    "Your input is parsed into an exact integer using the digit set of the source base.",
+    "The integer is rewritten in the target base by repeated division, keeping each remainder.",
+    "For a negative base, a negative remainder is shifted up by |base| and the quotient increased by one, which is what lets negative bases encode negative values without a sign.",
+  ],
+  example: {
+    input: "42₁₀",
+    output: "1111110₋₂",
+    note: "Place values in base -2 alternate in sign: 64 - 32 + 16 - 8 + 4 - 2 + 0 = 42.",
+  },
+  faqs: [
+    {
+      q: "What is a negative base?",
+      a: "A negative base such as -2 (negabinary) uses place values that alternate in sign: 1, -2, 4, -8, 16… This lets you write both positive and negative numbers without a minus sign.",
+    },
+    {
+      q: "Why are base 0 and base 1 rejected?",
+      a: "Neither works as a positional system: base 0 has no digits at all, and base 1 cannot represent place values, so both are refused rather than silently accepted.",
+    },
+    {
+      q: "Are fractional bases supported?",
+      a: "Not in this version. Only whole-number bases from -36 to -2 and 2 to 36 are supported.",
+    },
+  ],
+  related: ["number-base-converter", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
+};
+
 const customTools: CustomTool[] = [
   {
     kind: "custom",
     slug: "custom-text-encoder",
     category: "other",
-    title: "Custom Text Encoder — Your Own Character Map",
+    title: "Custom Text Encoder — Fixed Letter/Digit Substitution",
     h1: "Custom Text Encoder",
     description:
-      "Build your own character substitution table, then encode and decode text with it. Editable, saved locally, and free.",
+      "Encode and decode text with a fixed leetspeak-style substitution table (I→1, E→3, A→4, S→5, O→0). Free and instant in your browser.",
     intro:
-      "Define your own mapping — for example A→4, E→3, I→1, O→0, S→5 — and apply it to any text. This is a substitution and encoding tool for fun and formatting, not encryption or secure cryptography.",
+      "Encode text with a fixed substitution table: I→1, Z→2, E→3, A→4, S→5, G→6, T→7, B→8 and O→0. Every other character stays as it is. This is a simple encoding and formatting tool, not encryption, and it provides no security.",
     howItWorks: [
-      "Edit the mapping table: each row maps one source character to a replacement.",
+      "Each supported letter is replaced by its fixed digit — the table cannot be changed.",
       "Type into the input panel to see the substituted text instantly.",
-      "Switch to decode to reverse the mapping, and export the table as JSON if you want to keep it.",
+      "Switch to decode to turn the digits back into their letters.",
     ],
-    example: { input: "SIEMA", output: "51EM4", note: "S→5, I→1, E stays, M stays, A→4 with the default leetspeak table." },
+    example: { input: "BIG", output: "816", note: "B→8, I→1, G→6 using the fixed table." },
     faqs: [
       { q: "Is this encryption?", a: "No. A substitution table offers no security whatsoever — treat it as formatting or a puzzle, never as protection." },
-      { q: "Is my mapping stored on a server?", a: "No. It is kept in your browser's local storage and can be exported as a file you control." },
-      { q: "Can decoding be ambiguous?", a: "Yes. If two source characters map to the same replacement, decoding cannot tell them apart." },
+      { q: "Can I change the mapping?", a: "No. The table is fixed so encoded text always means the same thing and decoding stays predictable." },
+      { q: "Can decoding be ambiguous?", a: "Each digit maps back to exactly one letter, but digits that were already in your original text will be turned into letters when decoding." },
     ],
+
     related: ["a1z26-cipher", "text-to-numbers", "text-to-binary", "ascii-converter", "number-base-converter"],
   },
 ];
@@ -639,14 +678,15 @@ const hubs: HubTool[] = [
 ];
 
 export const TOOLS: Record<string, Tool> = Object.fromEntries(
-  [...numberTools, ...textTools, ...customTools, ...hubs].map((t) => [t.slug, t as Tool]),
+  [...numberTools, ...textTools, ...customTools, customBaseTool, ...hubs].map((t) => [t.slug, t as Tool]),
 );
 
 export const NUMBER_TOOLS = numberTools;
 export const TEXT_TOOLS = textTools;
 export const CIPHER_TOOLS = textTools.filter((t) => t.category === "ciphers");
 export const HUBS = hubs;
-export const OTHER_TOOLS = customTools;
+export const OTHER_TOOLS = [...customTools, customBaseTool];
+export const CUSTOM_BASE_TOOL = customBaseTool;
 
 export function getTool(slug: string): Tool | undefined {
   return TOOLS[slug];

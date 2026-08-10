@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { AppSidebar } from "@/components/AppSidebar";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -122,12 +123,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const navLink =
-    "relative text-muted-foreground transition-colors hover:text-foreground";
-  const navActive = {
-    className:
-      "relative text-foreground after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:bg-primary",
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -143,41 +138,25 @@ function RootComponent() {
           <div className="absolute bottom-16 left-8 whitespace-nowrap">10110101 00101001 11000110 01010101</div>
         </div>
 
-        <header className="sticky top-0 z-20 border-b border-border bg-background/80 backdrop-blur-md">
-          <nav
-            aria-label="Main"
-            className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-5 gap-y-2 px-4 py-3"
-          >
+        <header className="sticky top-0 z-30 h-14 border-b border-border bg-background/80 backdrop-blur-md">
+          <div className="mx-auto flex h-full w-full items-center gap-4 px-4">
             <Link to="/" className="font-mono text-sm font-bold tracking-tight text-foreground">
-              <span className="text-primary">$</span> convert
+              <span className="text-primary">&#8596;</span> convert
               <span className="text-muted-foreground">ly</span>
             </Link>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
-              <Link to="/$slug" params={{ slug: "base" }} className={navLink} activeProps={navActive}>
-                Number Bases
-              </Link>
-              <Link to="/$slug" params={{ slug: "text" }} className={navLink} activeProps={navActive}>
-                Text &amp; ASCII
-              </Link>
-              <Link to="/$slug" params={{ slug: "ciphers" }} className={navLink} activeProps={navActive}>
-                Ciphers
-              </Link>
-              <Link
-                to="/$slug"
-                params={{ slug: "custom-text-encoder" }}
-                className={navLink}
-                activeProps={navActive}
-              >
-                Other Tools
-              </Link>
-            </div>
-          </nav>
+            <span className="hidden text-xs text-muted-foreground sm:inline">
+              Number &amp; text converter
+            </span>
+          </div>
         </header>
 
-        <main className="flex-1">
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-        </main>
+        <div className="flex flex-1 flex-col lg:flex-row">
+          <AppSidebar />
+          <main className="min-w-0 flex-1">
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+          </main>
+        </div>
 
         <footer className="border-t border-border">
           <div className="mx-auto w-full max-w-3xl px-4 py-6 font-mono text-xs text-muted-foreground">
@@ -188,5 +167,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-
-

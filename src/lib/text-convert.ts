@@ -154,45 +154,51 @@ export function a1z26Decode(raw: string): TextResult {
   return { ok: true, value: out.replace(/[ ]{2,}/g, " ") };
 }
 
-/* ------------------------------ custom mapping ----------------------------- */
+/* --------------------------- fixed substitution ---------------------------- */
 
 export type MappingEntry = { from: string; to: string };
 
-export const DEFAULT_MAPPING: MappingEntry[] = [
-  { from: "A", to: "4" },
-  { from: "E", to: "3" },
+/**
+ * Fixed leetspeak-style substitution table used by the Custom Text Encoder.
+ * These mappings are intentionally not user-editable.
+ */
+export const SUBSTITUTION_MAP: MappingEntry[] = [
   { from: "I", to: "1" },
-  { from: "O", to: "0" },
+  { from: "Z", to: "2" },
+  { from: "E", to: "3" },
+  { from: "A", to: "4" },
   { from: "S", to: "5" },
+  { from: "G", to: "6" },
+  { from: "T", to: "7" },
+  { from: "B", to: "8" },
+  { from: "O", to: "0" },
 ];
 
-export function applyMapping(text: string, mapping: MappingEntry[]): string {
-  const table = new Map<string, string>();
-  for (const m of mapping) {
-    if (!m.from) continue;
-    table.set(m.from.toUpperCase(), m.to);
-  }
+const ENCODE_TABLE = new Map(SUBSTITUTION_MAP.map((m) => [m.from, m.to]));
+const DECODE_TABLE = new Map(SUBSTITUTION_MAP.map((m) => [m.to, m.from]));
+
+/** Replace every mapped letter (case-insensitive) with its fixed digit. */
+export function encodeSubstitution(text: string): string {
   let out = "";
   for (const ch of text) {
-    const hit = table.get(ch.toUpperCase());
-    out += hit === undefined ? ch : hit;
+    out += ENCODE_TABLE.get(ch.toUpperCase()) ?? ch;
   }
   return out;
 }
 
-export function reverseMapping(text: string, mapping: MappingEntry[]): string {
-  const table = new Map<string, string>();
-  for (const m of mapping) {
-    if (!m.to) continue;
-    if (!table.has(m.to)) table.set(m.to, m.from.toUpperCase());
-  }
+/**
+ * Reverse the substitution. Each digit maps back to exactly one letter, so
+ * decoding is unambiguous for the encoded digits themselves — but characters
+ * that were already digits in the original text cannot be told apart.
+ */
+export function decodeSubstitution(text: string): string {
   let out = "";
   for (const ch of text) {
-    const hit = table.get(ch);
-    out += hit === undefined ? ch : hit;
+    out += DECODE_TABLE.get(ch) ?? ch;
   }
   return out;
 }
+
 
 /* -------------------------------- registry --------------------------------- */
 

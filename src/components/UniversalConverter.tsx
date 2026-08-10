@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ArrowLeftRight, RotateCcw } from "lucide-react";
 import { CopyButton } from "@/components/CopyButton";
-import { convert, convertBatch } from "@/lib/number-convert";
+import { convert } from "@/lib/number-convert";
 import {
   EXTRA_SYSTEMS,
   STANDARD_SYSTEMS,
@@ -60,7 +60,7 @@ function SystemSelect({
 }
 
 
-export function NumberConverter({ initialFrom, initialTo }: Props) {
+export function UniversalConverter({ initialFrom, initialTo }: Props) {
   const [from, setFrom] = useState<NumberSystem>(
     () => getSystem(initialFrom) ?? STANDARD_SYSTEMS[0]!,
   );
@@ -68,18 +68,13 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
     () => getSystem(initialTo) ?? STANDARD_SYSTEMS[8]!,
   );
   const [raw, setRaw] = useState("");
-  const [batch, setBatch] = useState(false);
   const [showSteps, setShowSteps] = useState(false);
   const [upper, setUpper] = useState(true);
   const [prefix, setPrefix] = useState(false);
 
   const result = useMemo(
-    () => (batch || raw.trim() === "" ? null : convert(raw, from, to)),
-    [raw, from, to, batch],
-  );
-  const rows = useMemo(
-    () => (batch && raw.trim() !== "" ? convertBatch(raw, from, to) : []),
-    [raw, from, to, batch],
+    () => (raw.trim() === "" ? null : convert(raw, from, to)),
+    [raw, from, to],
   );
 
   const decorate = (v: string) => {
@@ -89,7 +84,6 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
   };
 
   const display = result?.ok ? decorate(result.value) : "";
-  const batchText = rows.map((r) => (r.error ? `${r.input}: error` : decorate(r.output))).join("\n");
   const invalid = result != null && !result.ok;
   const errorId = "converter-error";
 
@@ -114,12 +108,12 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
               aria-label={`Value in ${from.label}`}
               value={raw}
               onChange={(e) => setRaw(e.target.value)}
-              rows={batch ? 8 : 5}
+              rows={5}
               spellCheck={false}
               autoComplete="off"
               autoCapitalize="off"
               inputMode={from.base === 10 ? "numeric" : "text"}
-              placeholder={batch ? "1010\n1111\n10001" : "Type a value…"}
+              placeholder="Type a value…"
               aria-invalid={invalid}
               aria-describedby={invalid ? errorId : "from-charset"}
               className="w-full resize-y rounded-xl bg-transparent px-3 py-3 font-mono text-xl tracking-wide text-foreground outline-none placeholder:text-muted-foreground/50 focus-visible:outline-none"
@@ -156,15 +150,7 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
         {/* TO */}
         <div className="min-w-0">
           <SystemSelect id="to-system" label={t.converter.to} value={to} onChange={setTo} />
-          {batch ? (
-            <pre
-              aria-live="polite"
-              className="panel-out mt-2 min-h-[11rem] w-full overflow-x-auto whitespace-pre-wrap break-all rounded-xl px-3 py-3 font-mono text-lg text-primary"
-            >
-              {batchText || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
-            </pre>
-          ) : (
-            <output
+                      <output
               key={display}
               id="converter-output"
               htmlFor="converter-input"
@@ -173,12 +159,11 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             >
               {display || <span className="text-muted-foreground/60">{t.converter.resultPlaceholder}</span>}
             </output>
-          )}
           <p className="mt-1.5 text-xs text-muted-foreground">
             {t.converter.charset}: {to.charset}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <CopyButton value={batch ? batchText : display} label={t.converter.copy} />
+            <CopyButton value={display} label={t.converter.copy} />
           </div>
         </div>
       </div>
@@ -213,15 +198,6 @@ export function NumberConverter({ initialFrom, initialTo }: Props) {
             Add 0x prefix
           </label>
         )}
-        <label className="inline-flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={batch}
-            onChange={(e) => setBatch(e.target.checked)}
-            className="size-4 accent-primary"
-          />
-          {t.converter.batchMode}
-        </label>
         <span className="text-xs text-muted-foreground">{t.converter.integerNotice}</span>
       </div>
 
