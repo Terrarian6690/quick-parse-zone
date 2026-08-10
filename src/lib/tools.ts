@@ -549,8 +549,47 @@ const textTools: TextTool[] = [
   },
 ];
 
+const customBaseTool: CustomBaseTool = {
+  kind: "custom-base",
+  slug: "custom-bases",
+  category: "other",
+  title: "Custom Bases Converter — Negative & Non-Standard Bases",
+  h1: "Custom Bases Converter",
+  description:
+    "Convert whole numbers between any integer base from -36 to -2 and 2 to 36, including experimental negative bases. Exact, instant and free.",
+  intro:
+    "Experiment with non-standard numerical bases. Choose any integer base from -36 to -2 or 2 to 36 for both sides. Negative bases are experimental compared with the everyday positive bases: they represent negative numbers without a minus sign. Base 0, base 1 and fractional bases are not valid and are rejected.",
+  howItWorks: [
+    "Your input is parsed into an exact integer using the digit set of the source base.",
+    "The integer is rewritten in the target base by repeated division, keeping each remainder.",
+    "For a negative base, a negative remainder is shifted up by |base| and the quotient increased by one, which is what lets negative bases encode negative values without a sign.",
+  ],
+  example: {
+    input: "42₁₀",
+    output: "101010₋₂",
+    note: "Repeated division by -2 with non-negative remainders gives 1 0 1 0 1 0 read bottom-to-top.",
+  },
+  faqs: [
+    {
+      q: "What is a negative base?",
+      a: "A negative base such as -2 (negabinary) uses place values that alternate in sign: 1, -2, 4, -8, 16… This lets you write both positive and negative numbers without a minus sign.",
+    },
+    {
+      q: "Why are base 0 and base 1 rejected?",
+      a: "Neither works as a positional system: base 0 has no digits at all, and base 1 cannot represent place values, so both are refused rather than silently accepted.",
+    },
+    {
+      q: "Are fractional bases supported?",
+      a: "Not in this version. Only whole-number bases from -36 to -2 and 2 to 36 are supported.",
+    },
+  ],
+  related: ["number-base-converter", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
+};
+
 const customTools: CustomTool[] = [
   {
+    kind: "custom",
+
     kind: "custom",
     slug: "custom-text-encoder",
     category: "other",
