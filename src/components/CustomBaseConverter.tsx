@@ -17,7 +17,7 @@ function BaseField({
   label: string;
   value: string;
   onChange: (v: string) => void;
-  error?: string;
+  error?: string | undefined;
 }) {
   return (
     <div>
