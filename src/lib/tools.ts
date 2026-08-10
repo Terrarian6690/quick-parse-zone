@@ -567,8 +567,8 @@ const customBaseTool: CustomBaseTool = {
   ],
   example: {
     input: "42₁₀",
-    output: "101010₋₂",
-    note: "Repeated division by -2 with non-negative remainders gives 1 0 1 0 1 0 read bottom-to-top.",
+    output: "1111110₋₂",
+    note: "Place values in base -2 alternate in sign: 64 - 32 + 16 - 8 + 4 - 2 + 0 = 42.",
   },
   faqs: [
     {
