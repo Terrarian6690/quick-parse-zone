@@ -12,4 +12,9 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    // The Lovable config defaults to lightningcss, whose native bindings fail in some
+    // deployment environments. Fall back to the standard PostCSS transformer.
+    css: { transformer: "postcss" },
+  },
 });
