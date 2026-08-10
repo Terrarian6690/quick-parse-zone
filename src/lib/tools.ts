@@ -19,6 +19,7 @@ export type BaseTool = {
 export type NumberTool = BaseTool & { kind: "number"; from: string; to: string };
 export type TextTool = BaseTool & { kind: "text"; mode: keyof typeof TEXT_MODES };
 export type CustomTool = BaseTool & { kind: "custom" };
+export type CustomBaseTool = BaseTool & { kind: "custom-base" };
 export type HubTool = Omit<BaseTool, "example" | "howItWorks"> & {
   kind: "hub";
   howItWorks?: string[];
@@ -26,7 +27,7 @@ export type HubTool = Omit<BaseTool, "example" | "howItWorks"> & {
   links: string[];
 };
 
-export type Tool = NumberTool | TextTool | CustomTool | HubTool;
+export type Tool = NumberTool | TextTool | CustomTool | CustomBaseTool | HubTool;
 
 const numberTools: NumberTool[] = [
   {
@@ -589,8 +590,6 @@ const customBaseTool: CustomBaseTool = {
 const customTools: CustomTool[] = [
   {
     kind: "custom",
-
-    kind: "custom",
     slug: "custom-text-encoder",
     category: "other",
     title: "Custom Text Encoder — Fixed Letter/Digit Substitution",
@@ -679,14 +678,15 @@ const hubs: HubTool[] = [
 ];
 
 export const TOOLS: Record<string, Tool> = Object.fromEntries(
-  [...numberTools, ...textTools, ...customTools, ...hubs].map((t) => [t.slug, t as Tool]),
+  [...numberTools, ...textTools, ...customTools, customBaseTool, ...hubs].map((t) => [t.slug, t as Tool]),
 );
 
 export const NUMBER_TOOLS = numberTools;
 export const TEXT_TOOLS = textTools;
 export const CIPHER_TOOLS = textTools.filter((t) => t.category === "ciphers");
 export const HUBS = hubs;
-export const OTHER_TOOLS = customTools;
+export const OTHER_TOOLS = [...customTools, customBaseTool];
+export const CUSTOM_BASE_TOOL = customBaseTool;
 
 export function getTool(slug: string): Tool | undefined {
   return TOOLS[slug];
