@@ -554,23 +554,24 @@ const customTools: CustomTool[] = [
     kind: "custom",
     slug: "custom-text-encoder",
     category: "other",
-    title: "Custom Text Encoder — Your Own Character Map",
+    title: "Custom Text Encoder — Fixed Letter/Digit Substitution",
     h1: "Custom Text Encoder",
     description:
-      "Build your own character substitution table, then encode and decode text with it. Editable, saved locally, and free.",
+      "Encode and decode text with a fixed leetspeak-style substitution table (I→1, E→3, A→4, S→5, O→0). Free and instant in your browser.",
     intro:
-      "Define your own mapping — for example A→4, E→3, I→1, O→0, S→5 — and apply it to any text. This is a substitution and encoding tool for fun and formatting, not encryption or secure cryptography.",
+      "Encode text with a fixed substitution table: I→1, Z→2, E→3, A→4, S→5, G→6, T→7, B→8 and O→0. Every other character stays as it is. This is a simple encoding and formatting tool, not encryption, and it provides no security.",
     howItWorks: [
-      "Edit the mapping table: each row maps one source character to a replacement.",
+      "Each supported letter is replaced by its fixed digit — the table cannot be changed.",
       "Type into the input panel to see the substituted text instantly.",
-      "Switch to decode to reverse the mapping, and export the table as JSON if you want to keep it.",
+      "Switch to decode to turn the digits back into their letters.",
     ],
-    example: { input: "SIEMA", output: "51EM4", note: "S→5, I→1, E stays, M stays, A→4 with the default leetspeak table." },
+    example: { input: "BIG", output: "816", note: "B→8, I→1, G→6 using the fixed table." },
     faqs: [
       { q: "Is this encryption?", a: "No. A substitution table offers no security whatsoever — treat it as formatting or a puzzle, never as protection." },
-      { q: "Is my mapping stored on a server?", a: "No. It is kept in your browser's local storage and can be exported as a file you control." },
-      { q: "Can decoding be ambiguous?", a: "Yes. If two source characters map to the same replacement, decoding cannot tell them apart." },
+      { q: "Can I change the mapping?", a: "No. The table is fixed so encoded text always means the same thing and decoding stays predictable." },
+      { q: "Can decoding be ambiguous?", a: "Each digit maps back to exactly one letter, but digits that were already in your original text will be turned into letters when decoding." },
     ],
+
     related: ["a1z26-cipher", "text-to-numbers", "text-to-binary", "ascii-converter", "number-base-converter"],
   },
 ];
