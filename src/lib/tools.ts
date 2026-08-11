@@ -8,7 +8,7 @@ export type BaseTool = {
   h1: string;
   description: string;
   intro: string;
-  category: "base" | "text" | "ciphers" | "other";
+  category: "base" | "text" | "ciphers";
   howItWorks: string[];
   example: { input: string; output: string; note: string };
   faqs: Faq[];
@@ -420,7 +420,6 @@ const textTools: TextTool[] = [
       { q: "Why is é rejected?", a: "é is not an ASCII character. Use the Text to Numbers tool, which handles the full Unicode range." },
       { q: "Is 65 always A?", a: "Yes, in both ASCII and UTF-8 the code 65 is capital A." },
     ],
-    inverse: "text-to-numbers",
     related: ["text-to-binary", "binary-to-text", "text-to-numbers", "numbers-to-text", "binary-translator"],
   },
   {
@@ -553,7 +552,7 @@ const textTools: TextTool[] = [
 const customBaseTool: CustomBaseTool = {
   kind: "custom-base",
   slug: "custom-bases",
-  category: "other",
+  category: "base",
   title: "Custom Bases Converter — Negative & Non-Standard Bases",
   h1: "Custom Bases Converter",
   description:
@@ -591,7 +590,7 @@ const customTools: CustomTool[] = [
   {
     kind: "custom",
     slug: "custom-text-encoder",
-    category: "other",
+    category: "ciphers",
     title: "Custom Text Encoder — Fixed Letter/Digit Substitution",
     h1: "Custom Text Encoder",
     description:
@@ -647,7 +646,7 @@ const hubs: HubTool[] = [
     h1: "Number Base Converters",
     description: "Convert between any bases from 2 to 62, including octal, base 26, base 32, base 36, base 58 and base 62.",
     intro: "Pick any pair of positional number systems and convert exactly, at any size, using arbitrary-precision arithmetic.",
-    links: ["number-base-converter", "octal-to-decimal", "decimal-to-octal", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
+    links: ["number-base-converter", "custom-bases", "octal-to-decimal", "decimal-to-octal", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
     faqs: [],
     related: ["binary", "hex", "ciphers"],
   },
