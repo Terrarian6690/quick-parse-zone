@@ -8,32 +8,30 @@ type Group = { title: string; items: Item[] };
 export const NAV_GROUPS: Group[] = [
   {
     title: "Converters",
-    items: [{ label: "Universal Converter", home: true }],
+    items: [
+      { label: "Universal Converter", home: true },
+      { label: "Custom Bases", slug: "custom-bases" },
+    ],
   },
   {
     title: "Text",
     items: [
-      { label: "Text → Binary", slug: "text-to-binary" },
-      { label: "Binary → Text", slug: "binary-to-text" },
-      { label: "Text → ASCII", slug: "ascii-converter" },
-      { label: "Text → Numbers", slug: "text-to-numbers" },
-      { label: "Numbers → Text", slug: "numbers-to-text" },
+      { label: "Text ↔ Binary", slug: "text-to-binary" },
+      { label: "Text ↔ ASCII", slug: "ascii-converter" },
+      { label: "Text ↔ Unicode", slug: "text-to-numbers" },
+      { label: "Text ↔ Numbers", slug: "numbers-to-text" },
     ],
   },
   {
     title: "Letters & Ciphers",
     items: [
       { label: "A1Z26 Cipher", slug: "a1z26-cipher" },
-      { label: "Letter → Number", slug: "letter-to-number-converter" },
-      { label: "Number → Letter", slug: "number-to-letter-converter" },
+      { label: "Letter ↔ Number", slug: "letter-to-number-converter" },
       { label: "Custom Text Encoder", slug: "custom-text-encoder" },
     ],
   },
-  {
-    title: "Advanced",
-    items: [{ label: "Custom Bases", slug: "custom-bases" }],
-  },
 ];
+
 
 function NavList({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
