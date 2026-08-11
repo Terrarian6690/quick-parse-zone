@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://quick-parse-zone.lovable.app/sitemap.xml
