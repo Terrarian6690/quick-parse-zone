@@ -10,14 +10,12 @@ const HUB_LABEL: Record<string, string> = {
   base: "Number Bases",
   text: "Text & ASCII",
   ciphers: "Ciphers",
-  other: "Other Tools",
 };
 
 const HUB_SLUG: Record<string, string> = {
   base: "base",
   text: "text",
   ciphers: "ciphers",
-  other: "text",
 };
 
 function ToolLink({ slug }: { slug: string }) {

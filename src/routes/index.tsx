@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { UniversalConverter } from "@/components/UniversalConverter";
+import { absoluteUrl } from "@/lib/site";
 
 const title = "Universal Number & Text Converter — Instant and Free";
 const description =
@@ -13,10 +14,10 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: absoluteUrl("/") },
       { name: "twitter:card", content: "summary" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: absoluteUrl("/") }],
     scripts: [
       {
         type: "application/ld+json",
@@ -26,7 +27,7 @@ export const Route = createFileRoute("/")({
           name: "Universal Number & Text Converter",
           applicationCategory: "UtilitiesApplication",
           operatingSystem: "Any",
-          url: "/",
+          url: absoluteUrl("/"),
           offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
         }),
       },

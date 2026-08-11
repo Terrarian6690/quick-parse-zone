@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ToolPage } from "@/components/ToolPage";
 import { getTool, type Tool } from "@/lib/tools";
 import { getSystem } from "@/lib/number-systems";
+import { absoluteUrl } from "@/lib/site";
 
 const DYNAMIC = /^base-(\d+)-to-base-(\d+)$/;
 
@@ -43,7 +44,7 @@ export const Route = createFileRoute("/$slug")({
     if (!tool) {
       return { meta: [{ title: "Not found" }, { name: "robots", content: "noindex" }] };
     }
-    const canonical = loaderData?.dynamic ? "/number-base-converter" : `/${params.slug}`;
+    const canonical = absoluteUrl(loaderData?.dynamic ? "/number-base-converter" : `/${params.slug}`);
     const meta = [
       { title: tool.title },
       { name: "description", content: tool.description },
@@ -59,7 +60,7 @@ export const Route = createFileRoute("/$slug")({
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
           { "@type": "ListItem", position: 2, name: tool.h1, item: canonical },
         ],
       },
@@ -101,5 +102,6 @@ export const Route = createFileRoute("/$slug")({
 
 function ToolRoute() {
   const { tool } = Route.useLoaderData();
-  return <ToolPage tool={tool} />;
+  // Keyed by slug so all converter state resets when navigating between tools.
+  return <ToolPage key={tool.slug} tool={tool} />;
 }
