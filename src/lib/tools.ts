@@ -646,7 +646,7 @@ const hubs: HubTool[] = [
     h1: "Number Base Converters",
     description: "Convert between any bases from 2 to 62, including octal, base 26, base 32, base 36, base 58 and base 62.",
     intro: "Pick any pair of positional number systems and convert exactly, at any size, using arbitrary-precision arithmetic.",
-    links: ["number-base-converter", "octal-to-decimal", "decimal-to-octal", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
+    links: ["number-base-converter", "custom-bases", "octal-to-decimal", "decimal-to-octal", "base-26-converter", "binary-to-decimal", "hex-to-decimal"],
     faqs: [],
     related: ["binary", "hex", "ciphers"],
   },
