@@ -290,7 +290,7 @@ const numberTools: NumberTool[] = [
       { q: "Which letters are used?", a: "A through P only, because 10 digits plus 16 letters gives the 26 symbols needed." },
       { q: "Is input case-sensitive?", a: "No, lower and upper case letters are treated identically." },
     ],
-    related: ["number-base-converter", "a1z26-cipher", "letter-to-number-converter", "decimal-to-hex", "binary-to-decimal"],
+    related: ["number-base-converter", "a1z26-cipher", "decimal-to-hex", "binary-to-decimal"],
   },
   {
     kind: "number",
@@ -343,7 +343,7 @@ const textTools: TextTool[] = [
       { q: "Is my text uploaded?", a: "No. Encoding happens in your browser and nothing leaves the page." },
     ],
     inverse: "binary-to-text",
-    related: ["binary-to-text", "binary-translator", "ascii-converter", "text-to-numbers", "binary-to-decimal"],
+    related: ["binary-to-text", "binary-translator", "ascii-converter", "unicode-converter", "binary-to-decimal"],
   },
   {
     kind: "text",
@@ -420,57 +420,7 @@ const textTools: TextTool[] = [
       { q: "Why is é rejected?", a: "é is not an ASCII character. Use the Text to Numbers tool, which handles the full Unicode range." },
       { q: "Is 65 always A?", a: "Yes, in both ASCII and UTF-8 the code 65 is capital A." },
     ],
-    related: ["text-to-binary", "binary-to-text", "text-to-numbers", "numbers-to-text", "binary-translator"],
-  },
-  {
-    kind: "text",
-    slug: "text-to-numbers",
-    mode: "text-to-numbers",
-    category: "text",
-    title: "Text to Numbers Converter (Unicode Code Points)",
-    h1: "Text to Numbers Converter",
-    description:
-      "Convert text into numbers using Unicode code points in decimal — a documented, reversible encoding. Free and instant.",
-    intro:
-      "Every character becomes its decimal Unicode code point, separated by single spaces. The encoding is explicit and fully reversible, not an invented scheme.",
-    howItWorks: [
-      "Each character is read as one Unicode code point, including emoji.",
-      "That code point is written in decimal.",
-      "Numbers are separated by single spaces so the sequence can be decoded exactly.",
-    ],
-    example: { input: "Hi!", output: "72 105 33", note: "H=72, i=105, !=33 — identical to ASCII for the first 128 characters." },
-    faqs: [
-      { q: "Which encoding is used?", a: "Decimal Unicode code points, one number per character. For letters A-Z this matches ASCII." },
-      { q: "Is this A1Z26?", a: "No. A1Z26 numbers letters 1-26 and ignores the rest; use the A1Z26 tool for that." },
-      { q: "Can I get the text back?", a: "Yes, the Numbers to Text tool reverses it exactly." },
-    ],
-    inverse: "numbers-to-text",
-    related: ["numbers-to-text", "ascii-converter", "text-to-binary", "a1z26-cipher", "letter-to-number-converter"],
-  },
-  {
-    kind: "text",
-    slug: "numbers-to-text",
-    mode: "numbers-to-text",
-    category: "text",
-    title: "Numbers to Text Converter — Decode Code Points",
-    h1: "Numbers to Text Converter",
-    description:
-      "Turn a list of decimal Unicode code points back into readable text. Instant, exact and free in your browser.",
-    intro:
-      "Paste numbers separated by spaces or commas to rebuild the original text. Each number is treated as one Unicode code point.",
-    howItWorks: [
-      "The input is split on spaces and commas.",
-      "Each number is validated as a Unicode code point (0 to 1114111).",
-      "Code points are joined back into a string.",
-    ],
-    example: { input: "72 105 33", output: "Hi!", note: "Values above 127 decode to non-ASCII characters." },
-    faqs: [
-      { q: "My numbers are all 1-26 — why is the result wrong?", a: "Those are A1Z26 values, not code points. Use the Number to Letter tool instead." },
-      { q: "Can I paste comma-separated values?", a: "Yes, commas and spaces are both accepted as separators." },
-      { q: "What is the maximum value?", a: "1114111, the highest Unicode code point." },
-    ],
-    inverse: "text-to-numbers",
-    related: ["text-to-numbers", "ascii-converter", "binary-to-text", "number-to-letter-converter", "a1z26-cipher"],
+    related: ["text-to-binary", "binary-to-text", "unicode-converter", "binary-translator"],
   },
   {
     kind: "text",
@@ -494,58 +444,8 @@ const textTools: TextTool[] = [
       { q: "How are word breaks shown?", a: "Spaces in the message are preserved, so words stay separated in the number sequence." },
       { q: "What about digits and punctuation?", a: "They pass through unchanged so the message stays readable." },
     ],
-    inverse: "number-to-letter-converter",
-    related: ["letter-to-number-converter", "number-to-letter-converter", "custom-text-encoder", "text-to-numbers", "base-26-converter"],
-  },
-  {
-    kind: "text",
-    slug: "letter-to-number-converter",
-    mode: "a1z26-encode",
-    category: "ciphers",
-    title: "Letter to Number Converter (A=1, Z=26)",
-    h1: "Letter to Number Converter",
-    description:
-      "Convert letters to numbers using alphabet positions where A=1 and Z=26. Works on full messages and keeps spacing intact.",
-    intro:
-      "Turn letters into their alphabet positions. Useful for puzzles, escape rooms, classroom exercises and quick word-value calculations.",
-    howItWorks: [
-      "Case is ignored, so a and A both give 1.",
-      "Each letter is replaced by its 1-26 position.",
-      "Non-letters are left exactly where they are.",
-    ],
-    example: { input: "CAB", output: "3 1 2", note: "C=3, A=1, B=2" },
-    faqs: [
-      { q: "What number is Z?", a: "26, the last position in the 26-letter English alphabet." },
-      { q: "Can I convert a whole sentence?", a: "Yes, the whole message converts at once with spacing preserved." },
-      { q: "How do I reverse it?", a: "Use the Number to Letter converter, or press swap." },
-    ],
-    inverse: "number-to-letter-converter",
-    related: ["number-to-letter-converter", "a1z26-cipher", "text-to-numbers", "base-26-converter", "custom-text-encoder"],
-  },
-  {
-    kind: "text",
-    slug: "number-to-letter-converter",
-    mode: "a1z26-decode",
-    category: "ciphers",
-    title: "Number to Letter Converter (1=A, 26=Z)",
-    h1: "Number to Letter Converter",
-    description:
-      "Convert numbers back into letters with 1=A and 26=Z. Decode A1Z26 puzzles instantly, with clear errors for out-of-range values.",
-    intro:
-      "Paste a sequence of numbers from 1 to 26 to read the hidden word or message. Separators such as spaces, dashes and commas are handled for you.",
-    howItWorks: [
-      "Numbers are read one group at a time.",
-      "Each value from 1 to 26 becomes the matching letter.",
-      "Values outside that range are reported as an error rather than guessed.",
-    ],
-    example: { input: "8 5 12 12 15", output: "HELLO", note: "Each number is an alphabet position." },
-    faqs: [
-      { q: "Why did 27 fail?", a: "The alphabet has 26 letters, so anything above 26 has no letter to map to." },
-      { q: "Are dashes supported?", a: "Yes, dashes, commas and pipes are treated as separators." },
-      { q: "How do I know where words end?", a: "Spaces in the number sequence become spaces in the decoded text." },
-    ],
-    inverse: "letter-to-number-converter",
-    related: ["letter-to-number-converter", "a1z26-cipher", "numbers-to-text", "ascii-converter", "custom-text-encoder"],
+    inverse: "a1z26-cipher",
+    related: ["a1z26-cipher", "custom-text-encoder", "unicode-converter", "base-26-converter"],
   },
 ];
 
@@ -609,7 +509,7 @@ const customTools: CustomTool[] = [
       { q: "Can decoding be ambiguous?", a: "Each digit maps back to exactly one letter, but digits that were already in your original text will be turned into letters when decoding." },
     ],
 
-    related: ["a1z26-cipher", "text-to-numbers", "text-to-binary", "ascii-converter", "number-base-converter"],
+    related: ["a1z26-cipher", "unicode-converter", "text-to-binary", "ascii-converter", "number-base-converter"],
   },
 ];
 
@@ -658,7 +558,7 @@ const hubs: HubTool[] = [
     h1: "Text & ASCII Converters",
     description: "Convert text to binary, ASCII codes or Unicode numbers, and decode all of them back into readable text.",
     intro: "These tools move between human-readable text and the numbers computers actually store, with UTF-8 handled correctly throughout.",
-    links: ["text-to-binary", "binary-to-text", "binary-translator", "ascii-converter", "text-to-numbers", "numbers-to-text"],
+    links: ["text-to-binary", "binary-to-text", "binary-translator", "ascii-converter", "unicode-converter"],
     faqs: [],
     related: ["binary", "ciphers", "base"],
   },
@@ -670,7 +570,7 @@ const hubs: HubTool[] = [
     h1: "Cipher & Encoding Tools",
     description: "A1Z26 encoding, letter-number conversion and a custom substitution encoder. For puzzles, not security.",
     intro: "Simple, transparent letter encodings for puzzles, teaching and games. None of these provide security or real cryptography.",
-    links: ["a1z26-cipher", "letter-to-number-converter", "number-to-letter-converter", "custom-text-encoder"],
+    links: ["a1z26-cipher", "custom-text-encoder"],
     faqs: [],
     related: ["text", "base"],
   },
