@@ -106,52 +106,62 @@ export function numbersToText(raw: string): TextResult {
 
 /* ---------------------------------- A1Z26 ---------------------------------- */
 
-/** Letters become 1-26; spaces, digits and punctuation are preserved. */
+/**
+ * Canonical A1Z26 format:
+ *   - letters inside a word are separated by single spaces
+ *   - words are separated by a comma + space
+ *
+ * "HELLO WORLD" → "8 5 12 12 15, 23 15 18 12 4"
+ */
 export function a1z26Encode(text: string): TextResult {
-  if (text === "") return { ok: false, error: "Enter a message to encode." };
-  const out: string[] = [];
-  let buffer = "";
-  const flush = () => {
-    if (buffer) {
-      out.push(buffer);
-      buffer = "";
+  if (text.trim() === "") return { ok: false, error: "Enter a message to encode." };
+  const words = text.trim().split(/\s+/);
+  const encodedWords: string[] = [];
+  for (const word of words) {
+    const nums: string[] = [];
+    for (const ch of word) {
+      const upper = ch.toUpperCase();
+      if (upper >= "A" && upper <= "Z") {
+        nums.push(String(upper.charCodeAt(0) - 64));
+      } else {
+        return {
+          ok: false,
+          error: `"${ch}" is not a letter A-Z. A1Z26 encodes letters only — remove digits and punctuation.`,
+        };
+      }
     }
-  };
-  for (const ch of text) {
-    const upper = ch.toUpperCase();
-    if (upper >= "A" && upper <= "Z") {
-      buffer = buffer ? `${buffer} ${upper.charCodeAt(0) - 64}` : String(upper.charCodeAt(0) - 64);
-    } else if (ch === " ") {
-      flush();
-      out.push(" ");
-    } else {
-      flush();
-      out.push(ch);
-    }
+    if (nums.length > 0) encodedWords.push(nums.join(" "));
   }
-  flush();
-  return { ok: true, value: out.join("").replace(/\s+$/g, "") };
+  if (encodedWords.length === 0) return { ok: false, error: "Enter at least one letter to encode." };
+  return { ok: true, value: encodedWords.join(", ") };
 }
 
-/** Numbers 1-26 become letters; anything else is passed through unchanged. */
+/**
+ * Decode A1Z26. A space (or the legacy "-" / "|" separators) means the next
+ * letter of the same word; a comma starts a new word.
+ */
 export function a1z26Decode(raw: string): TextResult {
   if (raw.trim() === "") return { ok: false, error: "Enter numbers to decode." };
-  let out = "";
-  const tokens = raw.match(/\d+|[^\d]/g) ?? [];
-  for (const token of tokens) {
-    if (/^\d+$/.test(token)) {
-      const n = Number(token);
+  const chunks = raw.split(",");
+  const words: string[] = [];
+  for (const chunk of chunks) {
+    const parts = chunk.trim().split(/[\s\-|]+/).filter(Boolean);
+    if (parts.length === 0) continue;
+    let word = "";
+    for (const p of parts) {
+      if (!/^\d+$/.test(p)) {
+        return { ok: false, error: `"${p}" is not a number. Use numbers 1-26 separated by spaces.` };
+      }
+      const n = Number(p);
       if (n < 1 || n > 26) {
         return { ok: false, error: `${n} is outside the A1Z26 range of 1-26.` };
       }
-      out += String.fromCharCode(64 + n);
-    } else if (/^[\s,.\-|]$/.test(token)) {
-      out += token === "," || token === "-" || token === "|" ? "" : token;
-    } else {
-      out += token;
+      word += String.fromCharCode(64 + n);
     }
+    words.push(word);
   }
-  return { ok: true, value: out.replace(/[ ]{2,}/g, " ") };
+  if (words.length === 0) return { ok: false, error: "Enter numbers to decode." };
+  return { ok: true, value: words.join(" ") };
 }
 
 /* --------------------------- fixed substitution ---------------------------- */
