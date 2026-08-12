@@ -417,10 +417,34 @@ const textTools: TextTool[] = [
         q: "What is the difference between ASCII and UTF-8?",
         a: "ASCII defines 128 characters in 7 bits. UTF-8 is a superset that encodes every Unicode character in one to four bytes, and its first 128 values are identical to ASCII.",
       },
-      { q: "Why is é rejected?", a: "é is not an ASCII character. Use the Text to Numbers tool, which handles the full Unicode range." },
+      { q: "Why is é rejected?", a: "é is not an ASCII character. Use the Unicode Converter, which handles the full Unicode range." },
       { q: "Is 65 always A?", a: "Yes, in both ASCII and UTF-8 the code 65 is capital A." },
     ],
     related: ["text-to-binary", "binary-to-text", "unicode-converter", "binary-translator"],
+  },
+  {
+    kind: "text",
+    slug: "unicode-converter",
+    mode: "text-to-numbers",
+    category: "text",
+    title: "Unicode Converter — Text ⇄ Code Points",
+    h1: "Unicode Converter",
+    description:
+      "Convert text to decimal Unicode code points and code points back to text. One tool, both directions, instant and free.",
+    intro:
+      "Every character becomes its decimal Unicode code point, separated by single spaces — a documented, fully reversible encoding. Press swap to decode numbers back into text.",
+    howItWorks: [
+      "Each character is read as one Unicode code point, including emoji.",
+      "That code point is written in decimal, separated by single spaces.",
+      "Decoding splits the numbers again and rebuilds the original string exactly.",
+    ],
+    example: { input: "Hi!", output: "72 105 33", note: "H=72, i=105, !=33 — identical to ASCII for the first 128 characters." },
+    faqs: [
+      { q: "Which encoding is used?", a: "Decimal Unicode code points, one number per character. For letters A-Z this matches ASCII." },
+      { q: "Is this A1Z26?", a: "No. A1Z26 numbers letters 1-26 and ignores the rest; use the A1Z26 Cipher tool for that." },
+      { q: "Can I decode numbers back to text?", a: "Yes — press the swap button and paste the numbers; the conversion is exact in both directions." },
+    ],
+    related: ["ascii-converter", "text-to-binary", "a1z26-cipher", "number-base-converter"],
   },
   {
     kind: "text",
@@ -430,22 +454,26 @@ const textTools: TextTool[] = [
     title: "A1Z26 Cipher Encoder & Decoder",
     h1: "A1Z26 Cipher",
     description:
-      "Encode and decode A1Z26 messages instantly, where A=1 and Z=26. Spaces and punctuation are preserved. Free, no signup.",
+      "Encode and decode A1Z26 messages instantly, where A=1 and Z=26. Letters are separated by spaces and words by commas. Free, no signup.",
     intro:
-      "The A1Z26 cipher replaces each letter with its position in the alphabet: A=1, B=2, up to Z=26. Encode a whole message, or swap the panels to decode one.",
+      "The A1Z26 cipher replaces each letter with its position in the alphabet: A=1, B=2, up to Z=26. Letters within a word are separated by spaces and words are separated by commas, so encoding and decoding are exact round trips. Press swap to decode.",
     howItWorks: [
       "Letters are matched to their alphabet position, ignoring case.",
-      "Numbers within a word are separated by spaces; spaces and punctuation in the message are kept.",
-      "Decoding reverses the mapping, rejecting anything outside 1-26.",
+      "Numbers for the letters of one word are separated by single spaces.",
+      "Words are separated by a comma, so \"HELLO WORLD\" becomes \"8 5 12 12 15, 23 15 18 12 4\".",
+      "Decoding reverses the mapping exactly: spaces join letters, commas start a new word.",
     ],
-    example: { input: "HELLO", output: "8 5 12 12 15", note: "H is the 8th letter, E the 5th, L the 12th, O the 15th." },
+    example: {
+      input: "HELLO WORLD",
+      output: "8 5 12 12 15, 23 15 18 12 4",
+      note: "Spaces separate letters, commas separate words — decoding gives back HELLO WORLD.",
+    },
     faqs: [
       { q: "Is A1Z26 secure?", a: "No. It is a simple substitution used in puzzles and games, not real cryptography." },
-      { q: "How are word breaks shown?", a: "Spaces in the message are preserved, so words stay separated in the number sequence." },
-      { q: "What about digits and punctuation?", a: "They pass through unchanged so the message stays readable." },
+      { q: "How are word breaks shown?", a: "With a comma. Spaces only separate the letters inside one word, so 8 5 12 12 15 decodes to HELLO, not H E L L O." },
+      { q: "What about digits and punctuation?", a: "A1Z26 covers the letters A-Z only, so anything else is reported as an error instead of being guessed." },
     ],
-    inverse: "a1z26-cipher",
-    related: ["a1z26-cipher", "custom-text-encoder", "unicode-converter", "base-26-converter"],
+    related: ["custom-text-encoder", "unicode-converter", "base-26-converter"],
   },
 ];
 
